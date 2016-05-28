@@ -1,10 +1,11 @@
-import { SettingsService } from './common/settings';
+import {
+        SettingsService,
+        DEFAULTS as DEFAULT_SETTINGS,
+        SETTINGS } from './common/settings';
 
-const ICON_SIZE_RADIO_SEL = 'input[name=iconSize]';
-const LAUNCHER_ICON_COLOR_SEL = 'input[name=launcherIconColor]';
-
-const DEFAULT_LAUNCHER_ICON_COLOR = '#000000';
-const DEFAULT_ICON_SIZE = 'large';
+const ICON_SIZE_RADIO_SEL = `input[name=${ SETTINGS.IconSize }]`;
+const SHOW_APP_NAMES_CHBOX_SEL = `input[name=${ SETTINGS.ShowAppNames }]`;
+const LAUNCHER_ICON_COLOR_SEL = `input[name=${ SETTINGS.LauncherIconColor }]`;
 
 const document = window.document;
 const service = new SettingsService();
@@ -16,8 +17,7 @@ service.get()
 
     currentSettings = settings;
 
-    setIconSizeRadio(currentSettings);
-    setLauncherIconColor(currentSettings);
+    setupOptionsUI(settings);
 
     let saveOptsButton = document.querySelector('.save');
     saveOptsButton.addEventListener('click', () => {
@@ -38,21 +38,43 @@ function saveSettings() {
     return service.set(currentSettings);
 }
 
+function setupOptionsUI (settings) {
+    setIconSizeRadio(settings);
+    setLauncherIconColor(settings);
+    setShowAppNamesChbox(settings);
+}
+
+function getSettingValue (settings, key) {
+    let setting = settings[key];
+    if (typeof setting === 'undefined' ||
+        setting === null) {
+        return DEFAULT_SETTINGS[key];
+    }
+
+    return setting;
+}
+
 function setIconSizeRadio(settings) {
-    let size = settings.iconSize || DEFAULT_ICON_SIZE;
-    let radioSel = `${ ICON_SIZE_RADIO_SEL }[value=${ size }]`;
+    let val = getSettingValue(settings, SETTINGS.IconSize);
+    let radioSel = `${ ICON_SIZE_RADIO_SEL }[value=${ val }]`;
     let radio = document.querySelector(radioSel);
     radio.checked = true;
 }
 
+function setShowAppNamesChbox (settings) {
+    let chbox = document.querySelector(SHOW_APP_NAMES_CHBOX_SEL);
+    chbox.checked = getSettingValue(settings, SETTINGS.ShowAppNames);
+}
+
 function setLauncherIconColor(settings) {
-    let color = settings.launcherIconColor || DEFAULT_LAUNCHER_ICON_COLOR;
+    let color = getSettingValue(settings, SETTINGS.LauncherIconColor);
     document.querySelector(LAUNCHER_ICON_COLOR_SEL).value = color;
 }
 
 function getDirtySettings() {
     let settings = {};
     settings.iconSize = document.querySelector(`${ ICON_SIZE_RADIO_SEL }:checked`).value;
+    settings.showAppNames = document.querySelector(`${ SHOW_APP_NAMES_CHBOX_SEL }`).checked;
     settings.launcherIconColor = document.querySelector(LAUNCHER_ICON_COLOR_SEL).value;
     return settings;
 }

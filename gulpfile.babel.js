@@ -18,7 +18,9 @@ const {
     useref,
     imagemin,
     uglify,
-    mocha
+    mocha,
+    sass,
+    cleanCss
 } = $;
 
 gulp.task('test', () => {
@@ -49,6 +51,15 @@ gulp.task('browserify', () => {
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('dist/scripts'));
     }
+});
+
+gulp.task('styles', function () {
+  return gulp.src('./app/styles/**/*.scss', { base: 'app' })
+    .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(cleanCss({ compatibility: '*' }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./dist'));
 });
 
 function browserifyStream(entrypoint, name) {
@@ -105,9 +116,6 @@ gulp.task('images', () => {
 gulp.task('html', () => {
     return gulp.src('app/*.html')
     .pipe(useref({ searchPath: ['.tmp', 'app', '.'] }))
-    .pipe(sourcemaps.init())
-    .pipe($.if('*.css', $.cleanCss({ compatibility: '*' })))
-    .pipe(sourcemaps.write())
     .pipe($.if('*.html', $.htmlmin({ removeComments: true, collapseWhitespace: true })))
     .pipe(gulp.dest('dist'));
 });
@@ -169,9 +177,10 @@ gulp.task('assets', [ 'html', 'images', 'extras' ]);
 gulp.task('dev', ['watch']);
 
 gulp.task('build', [
-        'lint',
+        //'lint',
         'test',
         'browserify',
+        'styles',
         'copy-dev-scripts',
         'assets']);
 

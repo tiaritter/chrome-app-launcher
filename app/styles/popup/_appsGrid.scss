@@ -1,0 +1,91 @@
+
+$launcherWidth: 350px;
+$itemsPerRow: 3;
+$itemWidth: $launcherWidth / $itemsPerRow;
+$itemNameHeight: 20px;
+
+
+html {
+    height: 100%;
+}
+
+body {
+    width: $launcherWidth;
+    height: 100%;
+}
+
+ul.apps-list {
+    list-style-type: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    -webkit-padding-start: 0;
+
+
+    * {
+        -webkit-user-select: none;
+    }
+
+    li {
+        display: inline-block;
+        width: $itemWidth;
+        height: $itemWidth;
+        margin: 0em;
+        margin-bottom: -4px;
+    }
+}
+
+.app {
+    position: relative;
+    height: 100%;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border: 1px solid #fff;
+
+    &:focus {
+        outline: none;
+        border: 1px solid #c9c9c9;
+    }
+
+    .app_content {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .app_icon-wrap,
+    .app_name {
+        margin: 0 auto;
+    }
+
+    .app_icon-wrap {
+        position: relative;
+        padding: 0.5em;
+        width: $itemWidth;
+        height: $itemWidth * 0.7;
+    }
+
+    .app_icon {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .app_name {
+        padding: 0 0.3em;
+        font-size: 0.9rem;
+        font-family: Roboto;
+        text-align: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+}

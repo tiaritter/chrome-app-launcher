@@ -1,4 +1,5 @@
 import { APPS_EVENT, AppsCollection, Grid } from './model';
+import { SETTINGS } from '../common/settings';
 import Sortable from 'sortablejs';
 import {
   AppElementBuilder,
@@ -30,11 +31,11 @@ export default class AppsLauncher {
     .then(([ settings, apps ]) => {
       this.settings = settings;
 
-      setTheme(settings);
+      applySettings(settings);
 
       this.apps = new AppsCollection(apps);
 
-      let gridWidth = GRID_WIDTHS[(settings.iconSize || 'large').toUpperCase()];
+      let gridWidth = GRID_WIDTHS[settings.iconSize.toUpperCase()];
       this.appsGrid = new Grid(this.apps.length, gridWidth);
 
       drawAppElements.call(this, APPS_LIST_ELEMENT, this.apps.list());
@@ -66,7 +67,7 @@ function makeGridSortable (appsListElement) {
   let currentElement;
 
   Sortable.create(appsListElement, {
-    draggable: 'li.app-container',
+    draggable: 'li',
     animation: 150,
 
     onEnd: (evnt) => {
@@ -94,7 +95,6 @@ function getAppIdFromAppListItem (li) {
 function drawAppElements (launcherElement, apps) {
   apps.forEach(app => {
     let appsListItem = document.createElement('li');
-    appsListItem.className = 'app-container';
 
     let appElement = AppElementBuilder.create(app)
     .withIconSize(this.settings.iconSize)
@@ -107,8 +107,13 @@ function drawAppElements (launcherElement, apps) {
   });
 }
 
-function setTheme(settings) {
-  window.document.documentElement.className += settings.iconSize;
+function applySettings (settings) {
+    let classes = [ settings[SETTINGS.IconSize] ];
+    if (!settings[SETTINGS.ShowAppNames]) {
+        classes.push('hideAppNames');
+    }
+
+  window.document.documentElement.className += ' ' + classes.join(' ');
 }
 
 function saveOrderOnAppsEvents (appsService, apps) {

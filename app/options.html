@@ -3,9 +3,7 @@
     <title>Apps Launcher - Options</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- build:css styles/options.css -->
     <link rel='stylesheet' href="styles/options.css" />
-    <!-- endbuild -->
 
     <script type='text/javascript' src='scripts/options.js'></script>
 </head>
@@ -25,21 +23,29 @@
                 <h3 class="option__name">Icon Size</h3>
                 <div class="option__choice">
                     <label>
-                        <input type="radio" name='iconSize' value='large' >&nbsp;Make them bigger and add a caption below.
+                        <input type="radio" name='iconSize' value='large' >&nbsp;Large
                     </label>
                 </div>
                 <div class="option__choice">
                     <label>
-                        <input type="radio" name='iconSize' value='small' >&nbsp;I like them smaller with no caption at all.
+                        <input type="radio" name='iconSize' value='small' >&nbsp;Small
                     </label>
                 </div>
             </div>
             <div class="option">
-                <h3 class="option__name">Launcher Icon Color</h3>
+                <h3 class="option__name">App names</h3>
+                <div class="option__choice">
+                    <label>
+                        <input type="checkbox" name='showAppNames' >&nbsp;Show application names under icons.
+                    </label>
+                </div>
+            </div>
+            <div class="option">
+                <h3 class="option__name">Launcher icon color</h3>
                 <div class="option__choice">
                     <label>
                         <input type="color" name="launcherIconColor" value="#000000" />
-                        &nbsp;Choose launcher icon color.
+                        &nbsp;Choose launcher icon color to match your preference.
                     </label>
                 </div>
             </div>
