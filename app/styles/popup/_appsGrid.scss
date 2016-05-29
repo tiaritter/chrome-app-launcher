@@ -1,20 +1,21 @@
 
+$launcherPadding: 10px;
 $launcherWidth: 350px;
+$launcherPaneWidth: $launcherWidth - 2 * $launcherPadding;
+
 $itemsPerRow: 3;
-$itemWidth: $launcherWidth / $itemsPerRow;
+$itemWidth: $launcherPaneWidth / $itemsPerRow;
 $itemNameHeight: 20px;
-
-
-html {
-    height: 100%;
-}
 
 body {
     width: $launcherWidth;
-    height: 100%;
+    padding: $launcherPadding;
 }
 
 ul.apps-list {
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
     list-style-type: none;
     width: 100%;
     margin: 0;
@@ -31,7 +32,8 @@ ul.apps-list {
     }
 
     li {
-        display: inline-block;
+        display: block;
+        flex: none;
         width: $itemWidth;
         height: $itemWidth;
         margin: 0em;
