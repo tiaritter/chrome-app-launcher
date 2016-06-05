@@ -48,7 +48,7 @@ export default class AppsLauncher {
   }
 
   launch () {
-    chromeManagement.launchApp(this.activeAppId);
+    //chromeManagement.launchApp(this.activeAppId);
   }
 
   uninstall() {
